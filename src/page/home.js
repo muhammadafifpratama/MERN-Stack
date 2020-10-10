@@ -1,85 +1,89 @@
 import React, { Component } from 'react';
-import Kartu from "../component/contoh"
+import Kartu from "../component/card"
 import Axios from 'axios'
-import { mongoapi } from '../helper/url'
-import Kartudulu from "../component/card"
-import Grid from '@material-ui/core/Grid';
+import { mongoapi } from "../helper/url"
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
+import './home.css';
 
-class home extends Component {
-    state = { dari: 0, toprow: [], middlerow: [], bottomrow: [] }
-
-    componentDidMount() {
-        let mulai = this.state.dari
-        let top = []
-        let middle = []
-        let bottom = []
-        Axios.get(mongoapi, {
-            mulai
-        })
-            .then((res) => {
-                if (res === undefined) {
-                    console.log('no response');
-                }
-                else {
-                    console.log(res.data);
-                    for (var i = 0; i < 3; i++) {
-                        top.push(res.data[i])
-                    }
-                    for (var i = 3; i < 6; i++) {
-                        middle.push(res.data[i])
-                    }
-                    for (var i = 6; i < 9; i++) {
-                        bottom.push(res.data[i])
-                    }
-                    this.setState({ toprow: top, middlerow: middle, bottomrow: bottom })
-                }
-            })
+const responsive = {
+    superLargeDesktop: {
+        // the naming can be any, depends on you.
+        breakpoint: { max: 4000, min: 3000 },
+        items: 5,
+    },
+    desktop: {
+        breakpoint: { max: 3000, min: 1024 },
+        items: 3,
+    },
+    tablet: {
+        breakpoint: { max: 1024, min: 464 },
+        items: 2,
+    },
+    mobile: {
+        breakpoint: { max: 464, min: 0 },
+        items: 1,
+    },
+};
+class Home extends Component {
+    state = { under45: [], under90: [], notgame: [] }
+    async componentDidMount() {
+        const under45 = await Axios.get(mongoapi + "murah")
+        const under90 = await Axios.get(mongoapi + "mahal")
+        const notgame = await Axios.get(mongoapi + "tipe")
+        this.setState({ under45: under45.data, under90: under90.data, notgame: notgame.data })
+        console.log(under45.data);
     }
 
-    rendertoprow = () => {
-        return this.state.toprow.map((val) => {
+    renderunder45 = () => {
+        return this.state.under45.map((val) => {
             return (
-                <Kartudulu nama={val.nama} image={val.gambar} harga={val.harga} />
+                <Kartu nama={val.nama} image={val.gambar} harga={val.harga} kucing={val.id}>  </Kartu>
             )
         })
     }
-    rendermiddlerow = () => {
-        return this.state.middlerow.map((val) => {
+
+    renderunder90 = () => {
+        return this.state.under90.map((val) => {
             return (
-                <Kartudulu nama={val.nama} image={val.gambar} harga={val.harga} />
+                <Kartu nama={val.nama} image={val.gambar} harga={val.harga} kucing={val.id}> </Kartu>
             )
         })
     }
-    renderbottomrow = () => {
-        return this.state.bottomrow.map((val) => {
+
+    notgamerender = () => {
+        return this.state.notgame.map((val) => {
             return (
-                <Kartudulu nama={val.nama} image={val.gambar} harga={val.harga} />
+                <Kartu nama={val.nama} image={val.gambar} harga={val.harga} kucing={val.id}> </Kartu>
             )
         })
     }
 
     render() {
-        var username = localStorage.getItem('username');
-        console.log(this.state.toprow);
+        console.log(this.state.under45);
         return (
-            <div style={{ padding: 100 }}>
-                <Grid container spacing={1}>
-                    <Grid container item xs={12} spacing={3}>
-                        {this.rendertoprow()}
-                    </Grid>
-                    <Grid container item xs={12} spacing={3}>
-                        {this.rendermiddlerow()}
-                    </Grid>
-                    <Grid container item xs={12} spacing={3}>
-                        {this.renderbottomrow()}
-                    </Grid>
-                </Grid>
-                {/* halo {username} */}
+            <div>
+                <div style={{ padding: 20 }}>
+                    <p id="text">GAMES UNDER RP 45 000</p>
+                    <Carousel responsive={responsive}>
+                        {this.renderunder45()}
+                    </Carousel>
+                </div>
+                <div style={{ paddingLeft: 20 }}>
+                    <p id="text">GAMES UNDER RP 90 000</p>
+                    <Carousel responsive={responsive}>
+                        {this.renderunder90()}
+                    </Carousel>
+                </div>
+                <div style={{ paddingLeft: 20 }}>
+                    <p id="text">downloadable content</p>
+                    <Carousel responsive={responsive}>
+                        {this.notgamerender()}
+                    </Carousel>
+                </div>
             </div>
         );
     }
 }
 
-
-
-export default home;
+export default Home;

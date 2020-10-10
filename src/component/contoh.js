@@ -7,6 +7,9 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import "./button.css"
+import { connect } from "react-redux"
+import { kirimid } from '../redux/action'
 import { Link } from 'react-router-dom'
 
 const useStyles = makeStyles({
@@ -39,7 +42,7 @@ const ImgMediaCard = (props) => {
                 {/* </a> */}
                 <CardActions classes={{ root: classes.root }}>
                     <Button size="small" color="primary" className="button">
-                        {props.harga}
+                        Rp {props.harga.toLocaleString()}
                     </Button>
                 </CardActions>
             </Link>
@@ -47,4 +50,4 @@ const ImgMediaCard = (props) => {
     );
 }
 
-export default ImgMediaCard;
+export default connect(null, { kirimid })(ImgMediaCard)
