@@ -18,31 +18,44 @@ class GameDetails extends Component {
 
     addtocart = async () => {
         let username = localStorage.getItem('username');
-        let namagame = this.state.data.nama
+        let game = this.state.data.nama
         let harga = this.state.data.harga
-        // let idgame = this.props.game
-        try {
-            let verifikasi = await Axios.get(mongoapi + 'cart/' + username)
-            if(username == null){
-                alert('silahkan login dulu ')
-            }
-            else {
-                verifikasi.data.map(val => (val.namagame))
-                let response = await Axios.post(mongoapi + 'cart', {
-                    username,
-                    namagame,
-                    harga
+
+        if (username == null) {
+            alert("silahkan login dulu")
+        }
+        else {
+            Axios.post(mongoapi + 'cart', {
+                username,
+                game,
+                harga
             })
             alert('game has been added to cart ')
-            console.log(verifikasi.data);
         }
-        }
-        catch (err) {
-            console.log(err);
-            console.log(username);
-            console.log(namagame);
-            console.log(harga);
-        }
+
+        // let idgame = this.props.game
+        // try {
+        //     let verifikasi = await Axios.get(mongoapi + 'cart/' + username)
+        //     if(username == null){
+        //         alert('silahkan login dulu ')
+        //     }
+        //     else {
+        //         verifikasi.data.map(val => (val.namagame))
+        //         let response = await Axios.post(mongoapi + 'cart', {
+        //             username,
+        //             namagame,
+        //             harga
+        //     })
+        //     alert('game has been added to cart ')
+        //     console.log(verifikasi.data);
+        // }
+        // }
+        // catch (err) {
+        //     console.log(err);
+        //     console.log(username);
+        //     console.log(namagame);
+        //     console.log(harga);
+        // }
     }
 
     open = () => {

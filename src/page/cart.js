@@ -28,22 +28,22 @@ class cart extends Component {
             })
     }
 
-    deletecart = () => {
-        console.log(this.state.data[0]._id);
+    deletecart = (_id) => {
+        console.log(_id);
     }
 
     render() {
-        console.log(this.state.data);
+        console.log(this.state.data._id);
         return (
             < div >
                 <TableContainer component={Paper}>
                     <Table aria-label="spanning table">
                         <TableBody>
                             {this.state.data.map(row => (
-                                <TableRow key={row.idcart}>
-                                    <TableCell>{row.namagame}</TableCell>
+                                <TableRow key={row._id}>
+                                    <TableCell>{row.game}</TableCell>
                                     <TableCell align="right">Rp. {row.harga.toLocaleString()}</TableCell>
-                                    <IconButton aria-label="delete" onClick={() => { this.deletecart(row.idcart) }}> <DeleteIcon /></IconButton>
+                                    <IconButton aria-label="delete" onClick={() => { this.deletecart(row._id) }}> <DeleteIcon /></IconButton>
                                 </TableRow>
                             ))}
                             <TableRow>
