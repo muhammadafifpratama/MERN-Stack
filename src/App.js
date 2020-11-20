@@ -10,6 +10,7 @@ import change from "./page/password"
 import card from "./component/card"
 import Navbar from "./component/navbar"
 import Game from "./page/detail"
+import Cart from "./page/cart"
 
 class App extends Component {
   render() {
@@ -24,6 +25,7 @@ class App extends Component {
           <Route path="/password" component={change} />
           <Route path="/card" component={card} />
           <Route path="/game" component={Game} />
+          <Route path="/cart" component={Cart} />
         </Switch>
       </div>
     )

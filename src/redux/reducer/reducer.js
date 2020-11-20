@@ -14,6 +14,6 @@ export default (asd = initial_state, action) => {
             console.log(action.payload);
             return action.payload
         default:
-            return asd
+            return 1
     }
 }
