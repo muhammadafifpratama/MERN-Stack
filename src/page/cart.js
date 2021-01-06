@@ -28,12 +28,33 @@ class cart extends Component {
             })
     }
 
-    deletecart = (_id) => {
-        console.log(_id);
+    deletecart = (_id, harga) => {
+        let username = localStorage.getItem('username');
+        let total = this.state.totalharga - harga
+        Axios.delete(mongoapi + 'cart/' + _id)
+            .then((res) => {
+                Axios.get(mongoapi + 'cart/' + username)
+                    .then((res) => {
+                        this.setState({ data: res.data, totalharga: total })
+                        alert('Delete Successful!')
+                    })
+            })
+    }
+
+    confirmpurchase = () => {
+        let username = localStorage.getItem('username');
+        Axios.delete(mongoapi + 'transaction/' + username)
+            .then((res) => {
+                Axios.get(mongoapi + 'cart/' + username)
+                    .then((res) => {
+                        this.setState({ data: res.data, totalharga: 0 })
+                        alert('purchase confirmed')
+                    })
+            })
     }
 
     render() {
-        console.log(this.state.data._id);
+        console.log(this.state.totalharga);
         return (
             < div >
                 <TableContainer component={Paper}>
@@ -43,12 +64,12 @@ class cart extends Component {
                                 <TableRow key={row._id}>
                                     <TableCell>{row.game}</TableCell>
                                     <TableCell align="right">Rp. {row.harga.toLocaleString()}</TableCell>
-                                    <IconButton aria-label="delete" onClick={() => { this.deletecart(row._id) }}> <DeleteIcon /></IconButton>
+                                    <IconButton aria-label="delete" onClick={() => { this.deletecart(row._id, row.harga) }}> <DeleteIcon /></IconButton>
                                 </TableRow>
                             ))}
                             <TableRow>
-                                <TableCell >Subtotal </TableCell>
-                                <Button onClick={() => { this.inventory() }}>
+                                <TableCell >Subtotal: Rp. {this.state.totalharga} </TableCell>
+                                <Button onClick={() => { this.confirmpurchase() }}>
                                     confirm purchases
                         </Button>
                             </TableRow>

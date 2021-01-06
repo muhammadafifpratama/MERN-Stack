@@ -32,30 +32,6 @@ class GameDetails extends Component {
             })
             alert('game has been added to cart ')
         }
-
-        // let idgame = this.props.game
-        // try {
-        //     let verifikasi = await Axios.get(mongoapi + 'cart/' + username)
-        //     if(username == null){
-        //         alert('silahkan login dulu ')
-        //     }
-        //     else {
-        //         verifikasi.data.map(val => (val.namagame))
-        //         let response = await Axios.post(mongoapi + 'cart', {
-        //             username,
-        //             namagame,
-        //             harga
-        //     })
-        //     alert('game has been added to cart ')
-        //     console.log(verifikasi.data);
-        // }
-        // }
-        // catch (err) {
-        //     console.log(err);
-        //     console.log(username);
-        //     console.log(namagame);
-        //     console.log(harga);
-        // }
     }
 
     open = () => {
@@ -65,7 +41,7 @@ class GameDetails extends Component {
     render() {
         console.log(this.props.game.id);
         let { data } = this.state
-        console.log(data);
+        console.log(data.harga);
         return (
             <div className='container full-height'>
                 <div className='row'>
